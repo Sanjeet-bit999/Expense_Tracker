@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo-area">
+        <img src="logo.png" class="logo">
+        <span class="app-title">Expense Tracker</span>
+    </div>
+
+    <ul class="menu">
+        <li onclick="showPage('dashboardPage')">
+            <i class="icon">📊</i> Dashboard
+        </li>
+
+        <li class="submenu-btn">
+            <i class="icon">💰</i> Expense System
+            <span class="arrow">▾</span>
+        </li>
+
+        <ul class="submenu">
+            <li onclick="showPage('addPage')">Add Expense</li>
+            <li onclick="showPage('reportPage')">Reports</li>
+        </ul>
+
+        <li onclick="logout()">
+            <i class="icon">🚪</i> Logout
+        </li>
+    </ul>
+</div>
+
+<!-- MAIN CONTENT AREA -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="top-right">
+            <span id="welcome-text">Welcome</span>
+            <img id="profile-img" src="default.jpg" class="profile">
+        </div>
+    </div>
+
+    <!-- CONTENT WRAPPER -->
+    <div class="content">
+
+        <!-- LOGIN PAGE -->
+        <div id="loginPage" class="section card">
+            <h2>Login</h2>
+            <form onsubmit="event.preventDefault(); doLogin(this)">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input name="username" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input name="password" type="password" required>
+                </div>
+                <button class="btn">Login</button>
+                <p class="text-link">
+                    Don't have an account?
+                    <a href="#" onclick="showPage('registerPage')">Sign up</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- REGISTER PAGE -->
+        <div id="registerPage" class="section card">
+            <h2>Create Account</h2>
+            <form onsubmit="event.preventDefault(); doRegister(this)">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input name="username" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input name="password" type="password" required>
+                </div>
+                <button class="btn">Register</button>
+                <p class="text-link">
+                    Already have an account?
+                    <a href="#" onclick="showPage('loginPage')">Login</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- DASHBOARD PAGE -->
+        <div id="dashboardPage" class="section card">
+            <h2>Dashboard</h2>
+            <table class="styled-table" id="expTable">
+                <tr>
+                    <th>Item</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ADD EXPENSE PAGE -->
+        <div id="addPage" class="section card">
+            <h2>Add Expense</h2>
+            <form onsubmit="event.preventDefault(); addExpense(this)">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Item</label>
+                        <input name="item" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Amount</label>
+                        <input type="number" step="0.01" name="amount" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Category</label>
+                        <select name="category">
+                            <option>Food</option>
+                            <option>Travel</option>
+                            <option>Shopping</option>
+                            <option>Bills</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn">Add Expense</button>
+            </form>
+        </div>
+
+        <!-- EDIT EXPENSE PAGE -->
+        <div id="editPage" class="section card">
+            <h2>Edit Expense</h2>
+            <form id="editForm" onsubmit="event.preventDefault(); updateExpense(this)">
+                <input type="hidden" name="id">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Item</label>
+                        <input name="item" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Amount</label>
+                        <input type="number" step="0.01" name="amount" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Category</label>
+                        <select name="category">
+                            <option>Food</option>
+                            <option>Travel</option>
+                            <option>Shopping</option>
+                            <option>Bills</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn">Update</button>
+            </form>
+        </div>
+
+        <!-- REPORT PAGE -->
+        <div id="reportPage" class="section card">
+            <h2>Reports</h2>
+            <table class="styled-table" id="reportTable">
+                <tr>
+                    <th>Item</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                </tr>
+            </table>
+            <canvas id="chart"></canvas>
+            <button class="btn" onclick="exportCSV()">Download CSV</button>
+        </div>
+
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
